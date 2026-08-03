@@ -1,0 +1,26 @@
+[project]
+name = "pyconau26-typing-workshop"
+version = "0.1.0"
+description = "Typed Python: from Zero to Hero — PyCon AU 2026 tutorial materials"
+requires-python = ">=3.10"
+dependencies = [
+    "pyrefly",
+    "numpy",
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# The exercise folders aren't a package — this project is just a container for materials.
+py-modules = []
+
+[tool.pyrefly]
+# Workshop-wide config. Individual exercises may have their own pyrefly.toml overrides.
+project-includes = ["sections/**/*.py", "example-project/**/*.py"]
+project-excludes = [
+    "**/solution.py",
+    "**/.venv/**",
+]

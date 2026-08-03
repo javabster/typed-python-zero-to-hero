@@ -1,0 +1,23 @@
+[project]
+name = "example-project"
+version = "0.1.0"
+description = "Toy untyped URL shortener used in Section 4 exercises"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest", "pyrefly"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# TODO (Section 4 Intermediate exercise):
+# Add a [tool.pyrefly] section here.
+#
+# See ../sections/04-setup-typechecker/exercises/intermediate/README.md for what
+# to configure and ../sections/04-setup-typechecker/demo/pyproject.toml for a
+# reference template.

@@ -1,0 +1,18 @@
+# Exercise solutions — kept locally, never committed.
+solutions/
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.pyrefly_cache/
+.mypy_cache/
+.pyre/
+.ruff_cache/
+.DS_Store
+.idea/
+.vscode/
+*.swp

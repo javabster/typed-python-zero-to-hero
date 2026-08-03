@@ -1,0 +1,21 @@
+# Reference pyrefly config we'll build up during the live demo.
+# This is a *fragment* — the surrounding [project] section from the real
+# pyproject.toml goes above.
+
+[tool.pyrefly]
+project-includes = ["src/**/*.py"]
+project-excludes = [
+    "**/tests/**",
+    "**/.venv/**",
+    "**/build/**",
+]
+python-version = "3.12"
+
+# Downgrade a specific error code across the whole project during rollout.
+# Once you've fixed the last of these, remove this line and let it default to "error".
+# errors = { deprecated = "warn" }
+
+# Per-module overrides — great for isolating legacy code.
+# [[tool.pyrefly.sub-config]]
+# matches = "src.legacy.*"
+# errors = { not-assignable = "warn", missing-attribute = "warn" }
