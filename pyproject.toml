@@ -17,10 +17,13 @@ build-backend = "setuptools.build_meta"
 # The exercise folders aren't a package — this project is just a container for materials.
 py-modules = []
 
+# Workshop-wide pyrefly config for the exercises under sections/.
+#
+# example-project/ is EXCLUDED here on purpose — Section 4 walks through
+# adding a fresh [tool.pyrefly] block to example-project/pyproject.toml.
+# If we included it here, our root config would win over the local one and
+# the "cold start" demo wouldn't work.
 [tool.pyrefly]
-# Workshop-wide config. Individual exercises may have their own pyrefly.toml overrides.
-project-includes = ["sections/**/*.py", "example-project/**/*.py"]
-project-excludes = [
-    "**/solution.py",
-    "**/.venv/**",
-]
+project-includes = ["sections/**/*.py"]
+project-excludes = ["example-project/**", "**/.venv/**"]
+python-version = "3.12"

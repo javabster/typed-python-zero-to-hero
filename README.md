@@ -1,22 +1,22 @@
 # Typed Python: from Zero to Hero
 
-**PyCon AU 2026 Tutorial** — Abby Mitchell (with Conner?)
+**PyCon AU 2026 Workshop**
 
 A hands-on tutorial for adopting type annotations in Python. We'll walk from the basics of annotating an untyped codebase all the way through advanced typing features, resolving type errors, and setting up a typechecker (using [Pyrefly](https://pyrefly.org)) in a dummy project. Feel free to work through these exercises at your own pace, ask questions and work with others if you wish. If you'd like help getting Pyrefly set up in your own project, just ask a member of the Pyrefly team to help you!
 
 ---
 
-## Agenda (3 hours)
+## Agenda (2 hours)
 
-| Time        | Section                              | Focus                                                             |
+| Time (rough plan)       | Section                              | Focus                                                             |
 |-------------|--------------------------------------|-------------------------------------------------------------------|
-| 0:00–0:15   | Intro & Setup                        | Welcome, agenda, environment check                                |
-| 0:15–1:00   | **Section 1**: Adding Annotations    | Basic types, functions, classes, simple containers                |
-| 1:00–1:45   | **Section 2**: Advanced Typing       | Generics, unions, protocols, literals                             |
-| 1:45–2:30   | **Section 3**: Dealing With Errors   | Running pyrefly, reading errors, refactoring to fix them          |
-| 2:30–3:00   | **Section 4**: Setting Up Pyrefly    | Install, configure, run in CI                                     |
+| 12:00–12:05   | Intro & Setup                        | Welcome, agenda, typing background
+| 12:05–12:15   | **Section 1**: Adding Annotations    | Basic types, functions, classes, simple containers                |
+| 12:30–12:40   | **Section 2**: Advanced Typing       | Generics, unions, protocols, literals                             |
+| 13:00–13:10   | **Section 3**: Dealing With Errors   | Running pyrefly, reading errors, refactoring to fix them          |
+| 13:30–13:40   | **Section 4**: Setting Up Pyrefly    | Install, configure, run in CI                                     |
 
-Each section is a ~15 min demo followed by ~30 min of hands-on exercises.
+Each section includes a ~10 min demo followed by ~20 min of hands-on exercises. You're free to work at your own pace or tackle the exercises in any order you prefer
 
 ## "Choose Your Own Adventure"
 
@@ -26,7 +26,7 @@ Every exercise comes in three difficulty levels:
 - **intermediate** — you're comfortable with the basics
 - **hard** — you want to stretch into the advanced stuff
 
-Pick whichever fits. If you finish early, try the next level up, or move to the next section. Pyrefly team members will be roaming — flag one down if you get stuck.
+Pick whichever fits. If you finish early, try the next level up, or move to the next section. Flag down a facilitator if you get stuck
 
 ## Repo Layout
 
@@ -64,10 +64,14 @@ pyrefly check --version
 
 1. Open the section folder you're working on
 2. Read the section `README.md`
-3. Pick a difficulty level — open `exercises/<level>/README.md`
-4. Edit `starter.py`
-5. Once you're happy — or stuck — flag down an instructor. Reference solutions are available on request.
+3. Watch the live demo (run by workshop host) or read through it yourself
+4. Pick a difficulty level — open `exercises/<level>/README.md`
+5. Edit `starter.py`, use `pyrefly check <file-name>` to check there are no type errors
+6. Once you're done move on to the next task, or flag down a workshop facilitator if you're stuck
 
-## After the Workshop
 
-The repo stays here as a reference. The [pyrefly docs](https://pyrefly.org) are the best next stop, and the [Python typing docs](https://docs.python.org/3/library/typing.html) cover every feature we touch and many we don't.
+## Resources
+
+* [Official Python typing docs](https://docs.python.org/3/library/typing.html)
+* [Python Typing 101](https://pyrefly.org/en/docs/python-typing-for-beginners/)
+* [Pyrefly docs & sandbox](https://pyrefly.org)

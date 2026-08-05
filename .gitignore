@@ -1,5 +1,6 @@
 # Exercise solutions — kept locally, never committed.
 solutions/
+demo-scripts/
 
 __pycache__/
 *.py[cod]

@@ -7,7 +7,7 @@
 1. Run pyrefly on the starter file:
 
    ```bash
-   pyrefly check sections/03-dealing-with-errors/exercises/easy/starter.py
+   pyrefly check sections/03-dealing-with-errors/exercises/01-easy/starter.py
    ```
 
 2. Read the errors from top to bottom. There are **5 planted errors**.

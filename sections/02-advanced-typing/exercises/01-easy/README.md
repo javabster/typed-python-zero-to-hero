@@ -13,7 +13,7 @@ Open [`starter.py`](./starter.py). Each function has a docstring describing what
 Run:
 
 ```bash
-pyrefly check sections/02-advanced-typing/exercises/easy/starter.py
+pyrefly check sections/02-advanced-typing/exercises/01-easy/starter.py
 ```
 
 ## What you'll practise

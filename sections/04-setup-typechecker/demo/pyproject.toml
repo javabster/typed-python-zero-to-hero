@@ -1,21 +1,30 @@
-# Reference pyrefly config we'll build up during the live demo.
-# This is a *fragment* — the surrounding [project] section from the real
-# pyproject.toml goes above.
+# Reference: what a real-world pyrefly config looks like once you've done
+# the intermediate exercise. This shows the `[tool.pyrefly]` form (embedded
+# in pyproject.toml). The equivalent standalone `pyrefly.toml` just drops
+# the `tool.pyrefly.` prefix from every key.
+#
+# Paste the whole [tool.pyrefly] block into your own project's pyproject.toml
+# and adjust project-includes / paths to match your source layout.
 
 [tool.pyrefly]
+python-version = "3.12"
+
+# Only check code we own, not tests or build artifacts.
 project-includes = ["src/**/*.py"]
 project-excludes = [
     "**/tests/**",
-    "**/.venv/**",
     "**/build/**",
+    "**/.venv/**",
 ]
-python-version = "3.12"
 
-# Downgrade a specific error code across the whole project during rollout.
-# Once you've fixed the last of these, remove this line and let it default to "error".
-# errors = { deprecated = "warn" }
+# Per-module severity overrides. Great for rolling out to legacy code —
+# leave the errors visible (as warnings) but don't fail CI on them.
+# Once the module is clean, remove the corresponding [[sub-config]] block.
 
-# Per-module overrides — great for isolating legacy code.
-# [[tool.pyrefly.sub-config]]
-# matches = "src.legacy.*"
-# errors = { not-assignable = "warn", missing-attribute = "warn" }
+[[tool.pyrefly.sub-config]]
+matches = "**/legacy.py"
+
+[tool.pyrefly.sub-config.errors]
+missing-attribute = "warn"
+unsupported-operation = "warn"
+bad-return = "warn"

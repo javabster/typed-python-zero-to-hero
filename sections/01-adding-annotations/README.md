@@ -25,9 +25,9 @@ Pick a difficulty level:
 
 | Level          | Topic                                                                          |
 |----------------|--------------------------------------------------------------------------------|
-| [easy](./exercises/easy/)                 | Annotate simple functions with primitive types                     |
-| [intermediate](./exercises/intermediate/) | Annotate a class with methods that use containers                  |
-| [hard](./exercises/hard/)                 | Annotate a small data processing module with nested containers     |
+| [easy](./exercises/01-easy/)                 | Annotate simple functions with primitive types                     |
+| [intermediate](./exercises/02-intermediate/) | Annotate a class with methods that use containers                  |
+| [hard](./exercises/03-hard/)                 | Annotate a small data processing module with nested containers     |
 
 Each exercise folder has its own `README.md` and a `starter.py` to edit. If you'd like to see a reference solution, ask an instructor.
 

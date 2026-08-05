@@ -1,34 +1,54 @@
-# Section 4 — Intermediate: Configure pyrefly
+# Section 4 — Intermediate: Extend the pyrefly config
 
-**Goal:** Add a `[tool.pyrefly]` section to `example-project/pyproject.toml` that reflects the shape of a real-world project (source layout, excluded paths, targeted python version, per-module overrides).
+**Goal:** Take the bare-bones `[tool.pyrefly]` block in `example-project/pyproject.toml` and grow it into something that reflects a real project's needs — scoped includes, targeted excludes, and per-module severity overrides.
 
-## What to do
-
-Open `example-project/pyproject.toml`. Add a `[tool.pyrefly]` block that:
-
-1. **Includes only** the `src/` tree (currently the whole project gets checked, including tests and any scratch scripts).
-2. **Excludes** `**/tests/**` and any `**/build/**` directories.
-3. **Targets Python 3.12** explicitly.
-4. **Adds a per-module override** downgrading errors in `example_project.legacy` from errors to warnings (that module represents older code we're still cleaning up).
-
-Then re-run:
+## Starting point
 
 ```bash
 cd example-project/
 pyrefly check
 ```
 
-You should see:
-- fewer files scanned (tests no longer included)
-- errors in the `legacy` submodule appear as warnings instead of errors
-- the exit code is 0 if only warnings remain
+You should see **8 errors** (with the minimal starter config). Your job: get to **3 errors + 4 hidden warnings** by improving the config, without changing any source code.
+
+## What to do
+
+Open `example-project/pyproject.toml`. Extend the `[tool.pyrefly]` block to:
+
+1. **Restrict includes to `src/`.** Tests shouldn't be typechecked at this level yet — they often have their own patterns. (This should drop the count from 8 → 7.)
+2. **Exclude `**/tests/**` and `**/build/**`.**
+3. **Downgrade legacy errors to warnings.** Add a `[[tool.pyrefly.sub-config]]` block matching `**/legacy.py` that turns `missing-attribute`, `unsupported-operation`, and `bad-return` into `warn`. (This should drop visible errors from 7 → 3, and make `pyrefly check` exit 0.)
+
+Then verify:
+
+```bash
+pyrefly check
+# should show: INFO 3 errors (4 warnings not shown)
+echo $?
+# should show: 0
+
+pyrefly check --min-severity warn
+# should show: INFO 7 diagnostics — the 4 legacy ones tagged WARN, the other 3 as ERROR
+```
 
 ## What you'll practise
 
-- Configuring pyrefly via `pyproject.toml`
-- Understanding the difference between `project-includes`, `project-excludes`, and per-file `search-path`
-- Setting per-module severity overrides — the primary tool for rolling out typing to legacy code
+- Configuring pyrefly via a `[tool.pyrefly]` block in `pyproject.toml`
+- Glob patterns for `project-includes` / `project-excludes`
+- Per-module overrides with `[[tool.pyrefly.sub-config]]` — the primary tool for rolling out typing to legacy code
+- The distinction between exit-code failures and informational warnings
 
-## Reference config
+## Hints
 
-See [`../../demo/pyproject.toml`](../../demo/pyproject.toml) if you need a starting template.
+- `[[tool.pyrefly.sub-config]]` uses double square brackets — that's TOML syntax for "an entry in an array". You can have multiple such blocks for multiple modules.
+- The `matches` field takes a glob path (not a Python module name). `**/legacy.py` works.
+- Setting an error kind to `"warn"` is one option; other valid severities are `"error"`, `"info"`, `"ignore"`.
+- If you split the config into its own file (`pyrefly.toml` at the project root, no `tool.pyrefly.` prefix on any key), pyrefly picks it up too. `pyrefly.toml` wins over `pyproject.toml` if both exist.
+
+## Bonus
+
+- Add a second `[[tool.pyrefly.sub-config]]` block matching `**/server.py` that downgrades JUST `missing-attribute` to `warn`. Verify only the server.py error is affected.
+
+## Reference
+
+See [`../../demo/pyproject.toml`](../../demo/pyproject.toml) for a full example config.

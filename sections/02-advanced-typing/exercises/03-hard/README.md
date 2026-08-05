@@ -15,7 +15,7 @@ Do **not** modify the concrete plugin classes at the bottom of the file — they
 Run:
 
 ```bash
-pyrefly check sections/02-advanced-typing/exercises/hard/starter.py
+pyrefly check sections/02-advanced-typing/exercises/03-hard/starter.py
 ```
 
 ## What you'll practise

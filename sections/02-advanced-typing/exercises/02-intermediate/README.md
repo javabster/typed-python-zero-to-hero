@@ -11,7 +11,7 @@ Then update the demo at the bottom to use the new generic class.
 Run:
 
 ```bash
-pyrefly check sections/02-advanced-typing/exercises/intermediate/starter.py
+pyrefly check sections/02-advanced-typing/exercises/02-intermediate/starter.py
 ```
 
 ## What you'll practise

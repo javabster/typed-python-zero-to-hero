@@ -20,7 +20,7 @@ starter/
 1. Run pyrefly across the whole project:
 
    ```bash
-   pyrefly check sections/03-dealing-with-errors/exercises/hard/starter/
+   pyrefly check sections/03-dealing-with-errors/exercises/03-hard/starter/
    ```
 
 2. You should see a dozen or so errors across multiple files. **Start at the file with the fewest / most-fundamental errors** — usually that's `models.py` (its errors often cause secondary errors in files that import it).

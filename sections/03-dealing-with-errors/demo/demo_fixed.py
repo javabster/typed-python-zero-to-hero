@@ -26,10 +26,6 @@ def contact_string(user: User) -> str:
     return f"{user.name} <{user.email}>"
 
 
-def notify(users: list[User], template: str) -> list[str]:
-    return [template.format(name=u.name, email=u.email) for u in users]
-
-
 def load_config(path: str) -> dict[str, str | int]:
     return {"port": 8080, "host": "localhost"}
 
@@ -38,5 +34,4 @@ if __name__ == "__main__":
     print(total_price([{"price": 3, "quantity": 2}]))
     print(first_name("Abby Mitchell"))
     print(contact_string(User("Abby", "abby@example.com")))
-    print(notify([User("Abby", "a@b.com")], "hello {name}"))
     print(load_config("app.toml"))

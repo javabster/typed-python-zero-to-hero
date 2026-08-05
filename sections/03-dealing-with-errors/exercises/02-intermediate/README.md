@@ -7,7 +7,7 @@
 Run pyrefly:
 
 ```bash
-pyrefly check sections/03-dealing-with-errors/exercises/intermediate/starter.py
+pyrefly check sections/03-dealing-with-errors/exercises/02-intermediate/starter.py
 ```
 
 There are several classes of error in this file:

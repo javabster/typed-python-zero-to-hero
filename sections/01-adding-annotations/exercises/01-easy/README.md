@@ -7,7 +7,7 @@
 Open [`starter.py`](./starter.py). Every function is untyped. Add parameter and return-type annotations to each one so that `pyrefly check` runs clean.
 
 ```bash
-pyrefly check sections/01-adding-annotations/exercises/easy/starter.py
+pyrefly check sections/01-adding-annotations/exercises/01-easy/starter.py
 ```
 
 ## What you'll practise

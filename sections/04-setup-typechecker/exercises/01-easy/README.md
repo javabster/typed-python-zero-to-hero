@@ -1,6 +1,6 @@
-# Section 4 — Easy: Get pyrefly running on the example project
+# Section 4 — Easy: Run pyrefly and read the errors
 
-**Goal:** Install pyrefly on a fresh, untyped project and run your first check.
+**Goal:** Run pyrefly on a real project, read its output, and fix at least one bug it finds. Every error you'll see corresponds to a **real runtime bug** — the annotations are honest; the code is what's broken.
 
 ## What to do
 
@@ -16,28 +16,43 @@
    pyrefly --version
    ```
 
-   If not, `pip install pyrefly` inside your workshop venv.
+3. Look around before you run anything:
 
-3. Run pyrefly with no config:
+   ```bash
+   ls
+   cat pyproject.toml
+   ```
+
+   The project already has a minimal `[tool.pyrefly]` block in `pyproject.toml` — just `python-version = "3.12"`. Enough to enable checking, nothing custom yet.
+
+4. Run pyrefly:
 
    ```bash
    pyrefly check
    ```
 
-   You should see a bunch of errors and warnings — that's expected. This project is intentionally untyped.
+   You should see **8 errors**. Read them from top to bottom.
 
-4. Count the errors. Pick any *one* file (start with `example_project/models.py`) and add just enough type annotations that pyrefly is happy about that file.
+5. Pick any one error and **trace the runtime crash it prevents**. For example:
 
-5. Re-run `pyrefly check`. How many errors are left?
+   - `server.py` line 34 — pyrefly says `'NoneType' has no 'visit'`. Look at the code: `link = _STORE.resolve(code); target = link.visit()`. What happens at runtime if `code` isn't in the store? (Answer: `resolve()` returns `None`, and `None.visit()` crashes with an `AttributeError`.)
+
+   - `models.py` describe method — same category. `link.target` on a `None`. Would crash for any unknown code.
+
+   - `tests/test_models.py` — a test is passing `12345` (an int) to a function that wants a `str`. Would crash with `TypeError`.
+
+6. **Fix one bug.** For the None-check bugs, add `if link is None: ...`. For the wrong-type test, change `12345` to `"12345"`.
+
+7. Re-run `pyrefly check`. Confirm the error count went down.
 
 ## What you'll practise
 
-- Running pyrefly at the project level (not just on a single file)
-- Reading total error counts and finding "quick wins"
-- Prioritising which module to type first (usually the leaf modules with no imports)
+- Running pyrefly at the project level
+- Reading its error messages and mapping each to a real runtime failure
+- The core loop of typechecker-driven development: **fix, re-run, watch the count drop**
 
 ## Success criteria
 
-- `pyrefly check` runs without crashing
-- You've reduced the total error count by at least one file's worth
-- You know how to interpret the summary line pyrefly prints at the end
+- `pyrefly check` runs cleanly (no config errors)
+- You can articulate what runtime crash each error prevents
+- You've fixed at least one bug and confirmed the error count went down

@@ -14,7 +14,7 @@ Open [`starter.py`](./starter.py). It parses a list of CSV-like rows into struct
 Run:
 
 ```bash
-pyrefly check sections/01-adding-annotations/exercises/hard/starter.py
+pyrefly check sections/01-adding-annotations/exercises/03-hard/starter.py
 ```
 
 ## What you'll practise

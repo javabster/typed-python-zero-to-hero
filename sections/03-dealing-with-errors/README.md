@@ -36,9 +36,9 @@ See [`demo/demo_fixed.py`](./demo/demo_fixed.py) for the clean end state.
 
 | Level          | Topic                                                              |
 |----------------|--------------------------------------------------------------------|
-| [easy](./exercises/easy/)                 | Single file, ~5 errors, obvious fixes                              |
-| [intermediate](./exercises/intermediate/) | Subtler errors: narrowing failures, variance, mutable defaults     |
-| [hard](./exercises/hard/)                 | Multi-file mini-project — cross-module type errors to hunt down    |
+| [easy](./exercises/01-easy/)                 | Single file, ~5 errors, obvious fixes                              |
+| [intermediate](./exercises/02-intermediate/) | Subtler errors: narrowing failures, variance, mutable defaults     |
+| [hard](./exercises/03-hard/)                 | Multi-file mini-project — cross-module type errors to hunt down    |
 
 ## Reading a pyrefly error
 

@@ -12,13 +12,14 @@
 
 ## Demo
 
-We'll take the [`example-project/`](../../example-project/) — an intentionally-untyped small Flask-style app — and add Pyrefly to it live:
+We'll take the [`example-project/`](../../example-project/) — a small, mostly-typed URL shortener with a handful of real latent bugs — and grow its Pyrefly setup live:
 
-1. `pip install pyrefly`
-2. `pyrefly init` — auto-generate a starter config
-3. Run `pyrefly check` and triage the first wave of errors
-4. Configure `[tool.pyrefly]` to exclude tests, vendored code, etc.
-5. Add a GitHub Actions workflow so pyrefly runs on every PR
+1. `pyrefly check` — see what its bare-bones starter config catches (8 errors)
+2. Add `project-includes`/`project-excludes` to scope what gets checked
+3. Add a `[[sub-config]]` block that downgrades the legacy module's errors to warnings
+4. Add a GitHub Actions workflow so pyrefly runs on every PR
+
+Every error you see is a **real runtime bug** — `AttributeError`, `TypeError`, and friends. The annotations are honest; Pyrefly reads them and finds the crashes waiting to happen.
 
 See [`demo/pyproject.toml`](./demo/pyproject.toml) and [`demo/github-workflow.yml`](./demo/github-workflow.yml) for the reference config files.
 
@@ -26,9 +27,9 @@ See [`demo/pyproject.toml`](./demo/pyproject.toml) and [`demo/github-workflow.ym
 
 | Level          | What to do                                                    |
 |----------------|---------------------------------------------------------------|
-| [easy](./exercises/easy/)                 | Install pyrefly in `example-project/` and run your first check          |
-| [intermediate](./exercises/intermediate/) | Add a `pyproject.toml` config with excludes and strict overrides         |
-| [hard](./exercises/hard/)                 | Set up pyrefly in CI (or on your own project — help from the team!)      |
+| [easy](./exercises/01-easy/)                 | Run pyrefly on `example-project/`, read the 8 errors, fix at least one   |
+| [intermediate](./exercises/02-intermediate/) | Extend the `[tool.pyrefly]` block with includes/excludes and a per-module override |
+| [hard](./exercises/03-hard/)                 | Set up pyrefly in CI (or on your own project — help from the team!)      |
 
 ## Common config knobs
 
@@ -42,17 +43,19 @@ project-excludes = ["**/tests/**", "**/vendor/**"]
 # Python version to target
 python-version = "3.12"
 
-# Per-module overrides
+# Per-module overrides — glob paths, valid error-kind names
 [[tool.pyrefly.sub-config]]
-matches = "src.legacy.*"
-errors = { not-assignable = "warn" }   # downgrade a whole category
+matches = "**/legacy.py"
+[tool.pyrefly.sub-config.errors]
+missing-attribute = "warn"   # downgrade a whole category for this module
+bad-return = "warn"
 ```
 
 ## Suggested rollout path for real projects
 
-1. Install and run `pyrefly init` to get a baseline config
+1. Install pyrefly and add a minimal config (`pyrefly.toml` or `[tool.pyrefly]`)
 2. Run `pyrefly check` — look at the numbers, not each error
-3. Add excludes for legacy modules or test-only code you don't want to fix yet
+3. Add excludes for legacy modules or test-only code you don't want to fix yet, or downgrade them to `warn`
 4. Fix the errors in your "core" modules first
 5. Turn on CI once the check is green
-6. Gradually remove excludes as you fix each subsystem
+6. Gradually remove excludes / warn-downgrades as you fix each subsystem

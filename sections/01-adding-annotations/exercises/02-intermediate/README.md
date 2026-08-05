@@ -12,7 +12,7 @@ Open [`starter.py`](./starter.py). Annotate:
 Then run:
 
 ```bash
-pyrefly check sections/01-adding-annotations/exercises/intermediate/starter.py
+pyrefly check sections/01-adding-annotations/exercises/02-intermediate/starter.py
 ```
 
 ## What you'll practise

@@ -1,19 +1,22 @@
 """Toy wsgiref-based server so we have no third-party deps.
 
-Intentionally not annotated. Feel free to type this file up as a bonus after
-finishing the intermediate config exercise.
+Fully typed — but the request handling has a couple of real bugs.
 """
 
+from typing import Any, Callable, Iterable
 from wsgiref.simple_server import make_server
 
 from .models import LinkStore
 
 _STORE = LinkStore()
 
+WsgiEnviron = dict[str, Any]
+StartResponse = Callable[[str, list[tuple[str, str]]], Any]
 
-def app(environ, start_response):
-    method = environ["REQUEST_METHOD"]
-    path = environ["PATH_INFO"]
+
+def app(environ: WsgiEnviron, start_response: StartResponse) -> Iterable[bytes]:
+    method: str = environ["REQUEST_METHOD"]
+    path: str = environ["PATH_INFO"]
 
     if method == "POST" and path == "/":
         size = int(environ.get("CONTENT_LENGTH") or 0)
@@ -26,9 +29,8 @@ def app(environ, start_response):
     if method == "GET" and len(path) > 1:
         code = path[1:]
         link = _STORE.resolve(code)
-        if link is None:
-            start_response("404 Not Found", [("Content-Type", "text/plain")])
-            return [b"unknown code"]
+        # REAL BUG: forgot the None check before calling .visit(). At runtime,
+        # a GET for an unknown code crashes: AttributeError: 'NoneType' has no 'visit'.
         target = link.visit()
         start_response("302 Found", [("Location", target)])
         return [b""]
@@ -37,7 +39,7 @@ def app(environ, start_response):
     return [b"POST / with a URL body, or GET /<code>"]
 
 
-def main():
+def main() -> None:
     with make_server("", 8000, app) as httpd:
         print("Listening on :8000")
         httpd.serve_forever()

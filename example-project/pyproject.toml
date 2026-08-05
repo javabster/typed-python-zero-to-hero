@@ -15,9 +15,8 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
-# TODO (Section 4 Intermediate exercise):
-# Add a [tool.pyrefly] section here.
-#
-# See ../sections/04-setup-typechecker/exercises/intermediate/README.md for what
-# to configure and ../sections/04-setup-typechecker/demo/pyproject.toml for a
-# reference template.
+# Bare-bones Pyrefly config. Section 4 exercises walk through growing it —
+# adding project-includes/excludes and per-module severity overrides.
+# See ../sections/04-setup-typechecker/exercises/02-intermediate/README.md.
+[tool.pyrefly]
+python-version = "3.12"

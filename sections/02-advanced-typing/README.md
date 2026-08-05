@@ -25,9 +25,9 @@ Key talking points:
 
 | Level          | Topic                                                          |
 |----------------|----------------------------------------------------------------|
-| [easy](./exercises/easy/)                 | Introduce `X | None` and `Union` into an untyped helper module |
-| [intermediate](./exercises/intermediate/) | Rewrite a duplicated container class as a generic              |
-| [hard](./exercises/hard/)                 | Define a `Protocol` for a plugin registry and pin state values with `Literal`  |
+| [easy](./exercises/01-easy/)                 | Introduce `X | None` and `Union` into an untyped helper module |
+| [intermediate](./exercises/02-intermediate/) | Rewrite a duplicated container class as a generic              |
+| [hard](./exercises/03-hard/)                 | Define a `Protocol` for a plugin registry and pin state values with `Literal`  |
 
 ## Cheat sheet
 
