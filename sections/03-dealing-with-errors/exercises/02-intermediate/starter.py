@@ -28,7 +28,7 @@ def collect(item, seen=[]):
 # BUG B: variance. `feed_all` mutates its list; callers that pass a
 # `list[Dog]` will be surprised when the function tries to append a Cat.
 # Rework the signature so the incorrect call site is caught by pyrefly.
-def feed_all(animals: list[Animal]) -> None:
+def feed_all(animals: list[Dog]) -> None:
     for a in animals:
         print(f"feeding {a.name}")
     # Notice this line — appending is what makes list-variance a real problem.

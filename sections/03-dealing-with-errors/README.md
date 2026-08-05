@@ -58,7 +58,7 @@ sections/03-dealing-with-errors/demo/demo.py:14:5: error: `str` is not assignabl
 
 | Symptom                                              | First thing to try                                        |
 |------------------------------------------------------|-----------------------------------------------------------|
-| "`X | None` isn't assignable to `X`"                 | Guard: `if x is not None: ...` or `assert x is not None`  |
+| "`X \| None` isn't assignable to `X`"                | Guard: `if x is not None: ...` or `assert x is not None`  |
 | "`str` isn't assignable to `int`"                    | Fix the source, or `int(x)` conversion                    |
 | "Object of type `X` has no attribute `y`"            | Wrong type inferred — annotate the variable               |
 | "Incompatible return type"                           | Fix the annotation, or fix the returned expression        |
