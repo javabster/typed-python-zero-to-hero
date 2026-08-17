@@ -13,13 +13,14 @@ class User:
     id: UserId
     name: str
     role: Role
+    metadata: str | bool
 
 
 _CACHE: dict[UserId, User] = {}
 
 
-def add_user(uid: UserId, name: str, role: Role) -> None:
-    _CACHE[uid] = User(id=uid, name=name, role=role)
+def add_user(uid: UserId, name: str, role: Role, metadata: str | bool) -> None:
+    _CACHE[uid] = User(id=uid, name=name, role=role, metadata=metadata)
 
 
 def get_user(uid: UserId) -> User | None:
@@ -41,8 +42,8 @@ def first[T](items: list[T]) -> T | None:
 
 
 if __name__ == "__main__":
-    add_user(UserId(1), "Abby", "member")
-    add_user(UserId(2), "Conner", "moderator")
+    add_user(UserId(1), "Abby", "member", "full access")
+    add_user(UserId(2), "Conner", "moderator", False)
     promote(UserId(1))
     print(get_user(UserId(1)))
     print(first([get_user(UserId(1)), get_user(UserId(2))]))
