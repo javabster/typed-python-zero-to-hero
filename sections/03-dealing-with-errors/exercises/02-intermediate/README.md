@@ -28,7 +28,7 @@ Fix each. Some fixes will be "restructure the code", others "reach for `Sequence
 
 ## Rules
 
-- No changing an annotation to a broader type just to hide an error. Fix the code, or use a more precise container (`Sequence`).
+- No changing an annotation to a broader type than needed just to hide an error (`Any`/`object`). Fix the code, or use a more appropriate container (`Sequence`).
 - You may use one `# pyrefly: ignore` — but only where the type system genuinely can't express the invariant. There is at most one such case in this file. If you find yourself reaching for it more than once, you're papering over a real bug.
 
 Ask an instructor if you'd like to see a reference solution.
