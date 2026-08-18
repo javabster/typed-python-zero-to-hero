@@ -17,7 +17,7 @@ We'll walk through [`demo/demo.py`](./demo/demo.py) — a small untyped script �
 Key talking points:
 1. Type annotations are **optional and don't affect runtime behavior** — they're for humans and tools.
 2. Modern Python (3.9+) uses lowercase built-ins (`list[str]`) instead of `List[str]` from `typing`. We prefer the new syntax throughout this workshop.
-3. Use `X | Y` (PEP 604) instead of `Union[X, Y]`, and `X | None` instead of `Optional[X]`.
+3. Use `X | None` (PEP 604) to express optional (maybe missing) values.
 
 ## Exercises
 

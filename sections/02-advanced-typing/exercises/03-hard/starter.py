@@ -25,7 +25,7 @@ class PluginRegistry:
 class Job:
     def __init__(self, name: str) -> None:
         self.name = name
-        # TODO: state should be Literal["pending", "running", "done", "failed"]
+        # TODO: state should be one of "pending", "running", "done", "failed"
         self.state: str = "pending"
 
 

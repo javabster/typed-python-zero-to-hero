@@ -1,13 +1,13 @@
 """Live-demo end state — the same script with type annotations added."""
 
-from typing import TypedDict
+from dataclasses import dataclass
 
 
 def greet(name: str) -> str:
     return f"Hello, {name}!"
 
 
-def average(numbers: list[float]) -> float:
+def average(numbers: list[float | int]) -> float:
     if not numbers:
         return 0
     return sum(numbers) / len(numbers)
@@ -20,7 +20,8 @@ def word_counts(text: str) -> dict[str, int]:
     return counts
 
 
-class CartItem(TypedDict):
+@dataclass
+class CartItem:
     name: str
     price: float
     quantity: int
@@ -35,10 +36,10 @@ class Cart:
         self.discount = None
 
     def add(self, name: str, price: float, quantity: int = 1) -> None:
-        self.items.append({"name": name, "price": price, "quantity": quantity})
+        self.items.append(CartItem(name, price, quantity))
 
     def subtotal(self) -> float:
-        return sum(item["price"] * item["quantity"] for item in self.items)
+        return sum(item.price * item.quantity for item in self.items)
 
     def total(self) -> float:
         st = self.subtotal()

@@ -14,8 +14,8 @@ from typing import Any
 _CACHE: dict[int, dict[str, Any]] = {}
 
 
-def add_user(uid, name, role):
-    _CACHE[uid] = {"id": uid, "name": name, "role": role}
+def add_user(uid, name, role, metadata):
+    _CACHE[uid] = {"id": uid, "name": name, "role": role, "metadata": metadata}
 
 
 def get_user(uid):
@@ -37,8 +37,8 @@ def first(items):
 
 
 if __name__ == "__main__":
-    add_user(1, "Abby", "member")
-    add_user(2, "Conner", "moderator")
+    add_user(1, "Abby", "member", "full access")
+    add_user(2, "Conner", "moderator", False)
     promote(1)
     print(get_user(1))
     print(first([get_user(1), get_user(2)]))

@@ -20,6 +20,8 @@ class Cat(Animal):
 
 
 # BUG A: mutable default argument — and its type is inferred loosely.
+# Fun fact: objects stored as defaults in a function are reused across
+# all calls of the function.
 def collect(item, seen=[]):
     seen.append(item)
     return seen
