@@ -74,9 +74,14 @@ class ReversePlugin:
 
 
 if __name__ == "__main__":
+    uppercase = UppercasePlugin()
+    uppercase.setup({"encoding": "utf-8"})
+    reverse = ReversePlugin()
+    reverse.setup({})
+
     registry = PluginRegistry()
-    registry.register(UppercasePlugin())
-    registry.register(ReversePlugin())
+    registry.register(uppercase)
+    registry.register(reverse)
     print(registry.names())
     print(registry.run_all(b"hello"))
 

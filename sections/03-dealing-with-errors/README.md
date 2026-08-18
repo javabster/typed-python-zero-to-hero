@@ -40,6 +40,24 @@ See [`demo/demo_fixed.py`](./demo/demo_fixed.py) for the clean end state.
 | [intermediate](./exercises/02-intermediate/) | Subtler errors: narrowing failures, variance, mutable defaults     |
 | [hard](./exercises/03-hard/)                 | Multi-file mini-project — cross-module type errors to hunt down    |
 
+## Variance in 60 seconds
+
+If you've ever wondered *"why can't I pass a `list[Dog]` where the function wants a `list[Animal]`?"* — this is **variance**. The short version:
+
+- **Invariant** (`list[T]`, `dict[K, V]`): `list[Dog]` is **not** a `list[Animal]`. If it were, a function could `.append(Cat(...))` into your dog list.
+- **Covariant** (`Sequence[T]`, `Iterable[T]`, `tuple[T, ...]`): read-only. `Sequence[Dog]` **is** a `Sequence[Animal]`. Safe because you can only read.
+- **Contravariant** (`Callable[[T], ...]` in its argument): a `Callable[[Animal], str]` **is** a `Callable[[Dog], str]`. A function that handles any animal can obviously handle a dog. The direction feels backwards until you see it in a signature.
+
+The practical rule of thumb:
+
+| You want to accept... | Use...                                  |
+|-----------------------|-----------------------------------------|
+| a list you'll only read | `Sequence[T]` or `Iterable[T]`        |
+| a list you'll mutate    | `list[T]` (and expect callers to match exactly) |
+| a callback that takes a `T` | `Callable[[T], ...]` — accepts any supertype-callable |
+
+If pyrefly rejects a call you *know* is safe, the fix is usually "widen the parameter type to the covariant read-only version", rather than use `# type: ignore`.
+
 ## Reading a pyrefly error
 
 ```

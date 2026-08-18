@@ -11,16 +11,16 @@ A hands-on tutorial for adopting type annotations in Python. We'll walk from the
 | Time (rough plan)       | Section                              | Focus                                                             |
 |-------------|--------------------------------------|-------------------------------------------------------------------|
 | 12:00–12:05   | Intro & Setup                        | Welcome, agenda, typing background
-| 12:05–12:15   | **Section 1**: Adding Annotations    | Basic types, functions, classes, simple containers                |
-| 12:30–12:40   | **Section 2**: Advanced Typing       | Generics, unions, protocols, literals                             |
-| 13:00–13:10   | **Section 3**: Dealing With Errors   | Running pyrefly, reading errors, refactoring to fix them          |
+| 12:05–12:15   | **Section 1**: Adding Annotations    | Basic types, functions, classes, containers, callables            |
+| 12:30–12:40   | **Section 2**: Advanced Typing       | Generics, unions, protocols, literals, overloads, ParamSpec       |
+| 13:00–13:10   | **Section 3**: Dealing With Errors   | Running pyrefly, reading errors, variance, refactoring to fix them |
 | 13:30–13:40   | **Section 4**: Setting Up Pyrefly    | Install, configure, run in CI                                     |
 
 Each section includes a ~10 min demo followed by ~20 min of hands-on exercises. You're free to work at your own pace or tackle the exercises in any order you prefer
 
 ## "Choose Your Own Adventure"
 
-Every exercise comes in three difficulty levels:
+Every exercise comes in three difficulty levels (Section 2 also has an *extra-hard*):
 
 - **easy** — you've barely touched type annotations before
 - **intermediate** — you're comfortable with the basics

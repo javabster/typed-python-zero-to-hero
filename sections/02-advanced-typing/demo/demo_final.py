@@ -1,33 +1,36 @@
-"""Live-demo end state — demo.py after applying every technique in Section 2."""
+"""Live-demo end state — demo.py after applying the techniques covered live.
+
+Focus: unions, literals, dataclass. Generics/protocols/overloads/ParamSpec
+have dedicated exercises.
+"""
 
 from dataclasses import dataclass
-from typing import Literal, NewType
+from typing import Literal
 
 
-UserId = NewType("UserId", int)
-Role = Literal["member", "moderator", "admin"]
+type Role = Literal["member", "moderator", "admin"]
 
 
 @dataclass
 class User:
-    id: UserId
+    id: int
     name: str
     role: Role
     metadata: str | bool
 
 
-_CACHE: dict[UserId, User] = {}
+_CACHE: dict[int, User] = {}
 
 
-def add_user(uid: UserId, name: str, role: Role, metadata: str | bool) -> None:
+def add_user(uid: int, name: str, role: Role, metadata: str | bool) -> None:
     _CACHE[uid] = User(id=uid, name=name, role=role, metadata=metadata)
 
 
-def get_user(uid: UserId) -> User | None:
+def get_user(uid: int) -> User | None:
     return _CACHE.get(uid)
 
 
-def promote(uid: UserId) -> None:
+def promote(uid: int) -> None:
     user = _CACHE.get(uid)
     if user is None:
         return
@@ -37,13 +40,8 @@ def promote(uid: UserId) -> None:
         user.role = "admin"
 
 
-def first[T](items: list[T]) -> T | None:
-    return items[0] if items else None
-
-
 if __name__ == "__main__":
-    add_user(UserId(1), "Abby", "member", "full access")
-    add_user(UserId(2), "Conner", "moderator", False)
-    promote(UserId(1))
-    print(get_user(UserId(1)))
-    print(first([get_user(UserId(1)), get_user(UserId(2))]))
+    add_user(1, "Abby", "member", "full access")
+    add_user(2, "Conner", "moderator", False)
+    promote(1)
+    print(get_user(1))

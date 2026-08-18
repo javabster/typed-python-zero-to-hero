@@ -8,18 +8,20 @@
 - **Generics** with `TypeVar` and the PEP 695 `[T]` syntax
 - **Protocols** — structural typing / "duck typing that the typechecker understands"
 - **Literals** — narrowing string/int types to specific values
-- **Custom types** — `NewType`, `TypeAlias`, `type X = ...`
+- **Overloads** — one function name, multiple typed signatures depending on the arguments
+- **Type aliases** — `type X = ...` for readability (with a brief mention of `NewType`)
 
 ## Demo
 
-We'll walk through [`demo/demo.py`](./demo/demo.py) — a small refactor that starts with `dict[str, Any]` everywhere and progressively tightens the types using each of the features above.
+We'll walk through [`demo/demo.py`](./demo/demo.py) — a small refactor that starts with `dict[str, Any]` everywhere and tightens the types. The demo focuses on unions, literals, and dataclasses — the other concepts (generics, protocols, overloads) get their own hands-on exercises rather than a live walkthrough.
 
 Key talking points:
 1. `Union` and `Optional` from `typing` still work, but `X | Y` and `X | None` (PEP 604) are the modern preferred forms.
 2. `TypeVar` lets a function/class say "the type doesn't matter — but the *same* type appears in multiple places."
 3. `Protocol` lets you type-check against a structural shape (methods/attributes) rather than a nominal class. This is how you type things like "any object with a `.read()` method".
 4. `Literal["red", "green", "blue"]` gives you enum-like safety with plain strings.
-5. Python 3.12's `type Foo = ...` and `class Container[T]:` remove a lot of boilerplate.
+5. `@overload` lets one function name declare multiple signatures — useful when the return type depends on the input type.
+6. Python 3.12's `type Foo = ...` and `class Container[T]:` remove a lot of boilerplate.
 
 ## Exercises
 
@@ -28,11 +30,12 @@ Key talking points:
 | [easy](./exercises/01-easy/)                 | Introduce `X | None` and `Union` into an untyped helper module |
 | [intermediate](./exercises/02-intermediate/) | Rewrite a duplicated container class as a generic              |
 | [hard](./exercises/03-hard/)                 | Define a `Protocol` for a plugin registry and pin state values with `Literal`  |
+| [extra-hard](./exercises/04-extra-hard/)     | `@overload` (Part A) and `ParamSpec` decorator factories (Part B)              |
 
 ## Cheat sheet
 
 ```python
-from typing import Literal, NewType, Protocol, TypeVar
+from typing import Literal, NewType, Protocol, TypeVar, overload
 
 # --- Unions ---
 def find(name: str) -> User | None: ...
@@ -67,7 +70,19 @@ def paint(colour: Colour) -> None: ...
 paint("red")     # OK
 paint("purple")  # type error
 
-# --- NewType ---
-UserId = NewType("UserId", int)
-def fetch_user(uid: UserId) -> User: ...
+# --- Overloads (@overload) ---
+# Declare N typed stubs, then ONE runtime implementation.
+@overload
+def parse(x: str) -> str: ...
+@overload
+def parse(x: bytes) -> bytes: ...
+def parse(x: str | bytes) -> str | bytes:
+    return x.strip()
+
+reveal_type(parse("hi"))     # str
+reveal_type(parse(b"hi"))    # bytes
+
+# --- Aliases & NewType (light touch) ---
+type UserId = int                # alias — same type, nicer name
+StrongId = NewType("StrongId", int)  # distinct type — must be constructed explicitly
 ```
