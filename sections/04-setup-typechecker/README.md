@@ -54,7 +54,7 @@ bad-return = "warn"
 ## Suggested rollout path for real projects
 
 1. Install pyrefly and add a minimal config (`pyrefly.toml` or `[tool.pyrefly]`)
-2. Run `pyrefly check` — look at the numbers, not each error
+2. Run `pyrefly check` — look at the numbers, not each error (using `--summary` or `--summarize-errors` can help get an idea of which errors or directories to target first)
 3. Add excludes for legacy modules or test-only code you don't want to fix yet, or downgrade them to `warn`
 4. Fix the errors in your "core" modules first
 5. Turn on CI once the check is green

@@ -25,7 +25,8 @@ class Task:
 
 class TaskStore:
     def __init__(self) -> None:
-        # BUG: should be dict[int, Task] — but is annotated as list[Task] and used as a dict.
+        # BUG: annotated as list[Task] and used as a dict. Use some of the other functions
+        # in this class to figure out what type it should be.
         self._tasks: list[Task] = {}
         self._next_id: int = 1
 

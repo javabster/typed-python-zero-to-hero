@@ -17,7 +17,7 @@ def save(store: TaskStore, path: Path) -> None:
         }
         for t in store.all()
     ]
-    # BUG: Path.write_text expects str, not dict.
+    # BUG: what type does Path.write_text expect?
     path.write_text(payload)
 
 

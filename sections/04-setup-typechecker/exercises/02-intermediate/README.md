@@ -40,7 +40,7 @@ pyrefly check --min-severity warn
 
 ## Hints
 
-- `[[tool.pyrefly.sub-config]]` uses double square brackets — that's TOML syntax for "an entry in an array". You can have multiple such blocks for multiple modules.
+- `[[tool.pyrefly.sub-config]]` uses double square brackets — that's TOML syntax for "an object in an array". You can have multiple such blocks for multiple modules.
 - The `matches` field takes a glob path (not a Python module name). `**/legacy.py` works.
 - Setting an error kind to `"warn"` is one option; other valid severities are `"error"`, `"info"`, `"ignore"`.
 - If you split the config into its own file (`pyrefly.toml` at the project root, no `tool.pyrefly.` prefix on any key), pyrefly picks it up too. `pyrefly.toml` wins over `pyproject.toml` if both exist.
