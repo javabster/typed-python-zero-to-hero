@@ -55,7 +55,7 @@ def fetch(url: str, format: str = "json") -> dict[str, Any] | str | bytes:
 #     @retry(times=3)
 #     def fetch_score(user_id: int) -> float: ...
 #
-#     fetch_score("nope")   # <- pyrefly should catch this, but it won't today.
+#     fetch_score("nope")   # <- this is a complicated signature for a type checker to infer, so pyrefly reports `Unknown`
 #
 # Rewrite the annotations using `ParamSpec` and `TypeVar` (or PEP 695 syntax)
 # so that:
@@ -72,9 +72,9 @@ def fetch(url: str, format: str = "json") -> dict[str, Any] | str | bytes:
 # ---------------------------------------------------------------------------
 
 
-def retry(times: int) -> Any:
-    def decorator(fn: Any) -> Any:
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
+def retry(times: int):
+    def decorator(fn):
+        def wrapper(*args, **kwargs):
             last_exc: Exception | None = None
             for _ in range(times):
                 try:

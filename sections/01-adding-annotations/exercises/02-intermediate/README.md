@@ -22,7 +22,7 @@ pyrefly check sections/01-adding-annotations/exercises/02-intermediate/starter.p
 - Container attributes: `list[str]`, `dict[str, int]`
 - Methods that take/return the class itself (`"Playlist"` string form or `from __future__ import annotations`)
 - Optional attributes that start out as `None`
-- `Callable[[Arg], Return]` for methods that accept another function as an argument
+- `Callable[[Arg], Return]` for typing functions
 
 ## Hints
 
