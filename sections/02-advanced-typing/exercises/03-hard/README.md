@@ -8,7 +8,8 @@ Open [`starter.py`](./starter.py). It contains a `PluginRegistry` that currently
 
 1. **Define a `Plugin` `Protocol`** with the methods a plugin must expose (`name` property, `setup(config: dict[str, str]) -> None`, `run(payload: bytes) -> bytes`). Update `PluginRegistry.register` to accept only `Plugin`.
 2. **Convert `state`** from `str` to a `Literal[...]` covering only the valid states.
-3. **Type the transition function** so that pyrefly rejects invalid transitions at the call site.
+3. **Change `transition`'s `new_state` parameter** from `str` to your `State` literal. This is what makes a call like `transition(job, "on-fire")` a type error at the call site rather than a runtime `ValueError`.
+4. **Rewrite `describe`** to use a `match` statement on `state` with an `assert_never(state)` in the default branch. Once `state` is a `Literal`, pyrefly will treat `assert_never` as an exhaustiveness check and if you later add a new state to `State` and forget to add a `case`, pyrefly rejects it.
 
 Do **not** modify the concrete plugin classes at the bottom of the file — they should already satisfy the `Protocol` structurally. That's the whole point.
 

@@ -31,6 +31,11 @@ class Playlist:
     def by_artist(self, artist):
         return [song for song in self.songs if song.artist == artist]
 
+    # `predicate` is itself a function — one that takes a Song and returns bool.
+    # Annotate it using `Callable[..., ...]` from collections.abc.
+    def filtered(self, predicate):
+        return [song for song in self.songs if predicate(song)]
+
     def merged_with(self, other):
         merged = Playlist(f"{self.name} + {other.name}")
         for song in self.songs + other.songs:
@@ -44,3 +49,6 @@ if __name__ == "__main__":
     p.add(Song("Nuvole Bianche", "Ludovico Einaudi", 366))
     p.add_tag("ambient", 2)
     print(f"{p.name}: {p.total_duration()}s across {len(p.songs)} songs")
+
+    long_songs = p.filtered(lambda song: song.duration_seconds > 400)
+    print(f"long songs: {[s.title for s in long_songs]}")

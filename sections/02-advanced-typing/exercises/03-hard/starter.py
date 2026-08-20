@@ -35,8 +35,10 @@ def transition(job: Job, new_state: str) -> None:
         running -> done
         running -> failed
     Any other transition should raise.
-    Once the state field is a Literal, pyrefly should catch bad literal values
-    passed here as `new_state`.
+
+    TODO: change `new_state` from `str` to the `State` literal you defined for
+    `Job.state`. Once you do, a call like `transition(job, "on-fire")` should
+    be rejected by pyrefly at the call site, not just at runtime.
     """
     valid = {
         ("pending", "running"),
@@ -46,6 +48,25 @@ def transition(job: Job, new_state: str) -> None:
     if (job.state, new_state) not in valid:
         raise ValueError(f"Illegal transition {job.state} -> {new_state}")
     job.state = new_state
+
+
+def describe(state: str) -> str:
+    """Human-readable description of a state.
+
+    TODO: rewrite this using `match state:` and `assert_never` in the default
+    branch. Once `state` is typed as `State`, pyrefly will use the match to
+    check that every literal is covered — if you later add a new state (say
+    "cancelled") to `State`, the missing `case` becomes a type error.
+    """
+    if state == "pending":
+        return "waiting to start"
+    if state == "running":
+        return "in progress"
+    if state == "done":
+        return "completed successfully"
+    if state == "failed":
+        return "encountered an error"
+    raise ValueError(f"unknown state: {state}")
 
 
 # --- concrete plugin implementations (do NOT modify) ---
@@ -74,13 +95,19 @@ class ReversePlugin:
 
 
 if __name__ == "__main__":
+    uppercase = UppercasePlugin()
+    uppercase.setup({"encoding": "utf-8"})
+    reverse = ReversePlugin()
+    reverse.setup({})
+
     registry = PluginRegistry()
-    registry.register(UppercasePlugin())
-    registry.register(ReversePlugin())
+    registry.register(uppercase)
+    registry.register(reverse)
     print(registry.names())
     print(registry.run_all(b"hello"))
 
     job = Job("nightly-etl")
     transition(job, "running")
+    print(describe(job.state))
     transition(job, "done")
-    print(job.state)
+    print(describe(job.state))

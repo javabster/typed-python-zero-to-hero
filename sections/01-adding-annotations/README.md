@@ -8,6 +8,7 @@
 - Common built-in types: `int`, `str`, `float`, `bool`, `bytes`, `None`
 - Container types: `list[T]`, `dict[K, V]`, `tuple`, `set[T]`
 - Annotating class attributes and methods
+- `Callable[..., T]` for parameters that are themselves functions (callbacks)
 - When you can (and should) let Python infer types
 
 ## Demo
@@ -58,4 +59,13 @@ class Point:
 
     def distance_from_origin(self) -> float:
         return (self.x ** 2 + self.y ** 2) ** 0.5
+
+# Callables (functions passed as arguments)
+from collections.abc import Callable
+
+def apply(fn: Callable[[int], int], value: int) -> int:
+    return fn(value)
+
+# Callable[[ArgType1, ArgType2, ...], ReturnType]
+# Use `...` for the arg list when you don't want to pin it: Callable[..., int]
 ```

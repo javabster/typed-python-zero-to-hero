@@ -1,5 +1,7 @@
 """End state of the Section 3 live demo — all type errors resolved."""
 
+from collections.abc import Sequence
+
 
 def total_price(items: list[dict[str, int]]) -> int | str:
     total = 0
@@ -30,8 +32,21 @@ def load_config(path: str) -> dict[str, str | int]:
     return {"port": 8080, "host": "localhost"}
 
 
+class Admin(User):
+    pass
+
+
+# `Sequence[User]` is covariant, so `list[Admin]` is accepted here.
+def print_all(users: Sequence[User]) -> None:
+    for u in users:
+        print(u.name)
+
+
 if __name__ == "__main__":
     print(total_price([{"price": 3, "quantity": 2}]))
     print(first_name("Abby Mitchell"))
     print(contact_string(User("Abby", "abby@example.com")))
     print(load_config("app.toml"))
+
+    admins: list[Admin] = [Admin("Abby", "abby@example.com")]
+    print_all(admins)

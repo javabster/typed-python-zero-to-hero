@@ -1,11 +1,12 @@
 """Live-demo starting point for Section 2.
 
 A small "user cache" module. It works, but the types are loose: dict[str, Any]
-everywhere, no way to distinguish user IDs from other ints, no notion of "the
-user might not exist", and hard-coded strings for roles.
+everywhere, no notion of "the user might not exist", and hard-coded strings for
+roles.
 
-We'll tighten it step by step during the demo, using every feature the section
-covers. See demo_final.py for the finished version.
+We'll tighten it step by step during the demo — focusing on unions, literals,
+and a dataclass. Generics, protocols, and overloads have their own exercises.
+See demo_final.py for the finished version.
 """
 
 from typing import Any
@@ -32,13 +33,8 @@ def promote(uid):
         user["role"] = "admin"
 
 
-def first(items):
-    return items[0] if items else None
-
-
 if __name__ == "__main__":
     add_user(1, "Abby", "member", "full access")
     add_user(2, "Conner", "moderator", False)
     promote(1)
     print(get_user(1))
-    print(first([get_user(1), get_user(2)]))

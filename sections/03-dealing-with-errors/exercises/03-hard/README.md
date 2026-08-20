@@ -23,7 +23,7 @@ starter/
    pyrefly check sections/03-dealing-with-errors/exercises/03-hard/starter/
    ```
 
-2. You should see a dozen or so errors across multiple files. **Start at the file with the fewest / most-fundamental errors** — usually that's `models.py` (its errors often cause secondary errors in files that import it).
+2. You should see around 9 errors spread across the files. **Start at the file with the most-fundamental errors** — usually that's `models.py` (its errors cause secondary errors in files that import it).
 
 3. Fix each error. Re-run pyrefly. Many errors will disappear as you fix upstream types.
 

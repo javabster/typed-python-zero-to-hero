@@ -22,6 +22,7 @@ pyrefly check sections/01-adding-annotations/exercises/02-intermediate/starter.p
 - Container attributes: `list[str]`, `dict[str, int]`
 - Methods that take/return the class itself (`"Playlist"` string form or `from __future__ import annotations`)
 - Optional attributes that start out as `None`
+- `Callable[[Arg], Return]` for typing functions
 
 ## Hints
 
@@ -34,3 +35,4 @@ pyrefly check sections/01-adding-annotations/exercises/02-intermediate/starter.p
   ```
 - `__init__` always returns `None`. Yes, always. Even though it "returns" `self` conceptually.
 - If a method returns "another instance of me", you can use `"ClassName"` as a forward reference — or `from __future__ import annotations` and use the bare name.
+- For `filtered`, import `Callable` from `collections.abc`. The syntax is `Callable[[ArgType1, ArgType2, ...], ReturnType]`.
