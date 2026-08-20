@@ -63,9 +63,10 @@ Reference (Pyre docs, same feature works in pyrefly): https://pyre-check.org/doc
   ```
 - The PEP 695 form (3.12+):
   ```python
-  def retry[**P, R](times: int) -> Callable[[Callable[P, R]], Callable[P, R]]:
-      def decorator(fn: Callable[P, R]) -> Callable[P, R]:
-          ...
+    # work by defining the inside functions out for an easier time
+    def retry(times: int): # returns a callable that takes in a callable and returns a callable
+        def decorator(fn): # takes a callable and returns a callable
+            def wrapper(*args, **kwargs): # we don't know what the types of the args and kwargs should be (check out ParamSpec!)
   ```
 - `P.args` / `P.kwargs` are the only way to spread a `ParamSpec` — you can't use `P` on its own for `*args`.
 

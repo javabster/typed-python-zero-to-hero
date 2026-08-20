@@ -46,7 +46,7 @@ If you've ever wondered *"why can't I pass a `list[Dog]` where the function want
 
 - **Invariant** (`list[T]`, `dict[K, V]`): `list[Dog]` is **not** a `list[Animal]`. If it were, a function could `.append(Cat(...))` into your dog list.
 - **Covariant** (`Sequence[T]`, `Iterable[T]`, `tuple[T, ...]`): read-only. `Sequence[Dog]` **is** a `Sequence[Animal]`. Safe because you can only read.
-- **Contravariant** (`Callable[[T], ...]` in its argument): a `Callable[[Animal], str]` **is** a `Callable[[Dog], str]`. A function that handles any animal can obviously handle a dog. The direction feels backwards until you see it in a signature.
+- **Contravariant** (`Callable[[T], ...]` in its argument): a `Callable[[Animal], str]` **is** a `Callable[[Dog], str]`. Where we can handle functions that take dogs, we also handle functions that take animals (or even objects!). Don't worry, this one is confusing to all of us!
 
 The practical rule of thumb:
 
@@ -57,6 +57,46 @@ The practical rule of thumb:
 | a callback that takes a `T` | `Callable[[T], ...]` — accepts any supertype-callable |
 
 If pyrefly rejects a call you *know* is safe, the fix is usually "widen the parameter type to the covariant read-only version", rather than use `# type: ignore`.
+
+
+### Why contravariance goes the "wrong" way
+
+Contravariance isn't really intuitive until you see it. Imagine `play_with_animal` calls its callback with an `Animal`:
+
+```python
+from collections.abc import Callable
+
+
+class Animal:
+    def breathe(self) -> None: ...
+
+class Dog(Animal):
+    def bark(self) -> None: ...
+
+
+def play_with_animal(callback: Callable[[Animal], None]) -> None:
+    callback(Animal())
+
+
+def chase_dog(d: Dog) -> None:
+    d.bark()
+
+def chase_animal(a: Animal) -> None:
+    a.breathe()
+
+def chase_anything(obj: object) -> None:
+    print(repr(obj))
+
+
+play_with_animal(chase_dog)       # ✗ pyrefly rejects
+play_with_animal(chase_animal)    # ✓ fine
+play_with_animal(chase_anything)  # ✓ also fine — this is contravariance
+```
+
+- `chase_dog` is **rejected** because it needs a `Dog`, but `play_with_animal` only promises to hand it a plain `Animal`. If the type checker allowed the call, `Animal().bark()` would crash at runtime — `Animal` has no `.bark` (and not all animals can bark!).
+- `chase_animal` is **accepted** — it takes exactly what `play_with_animal` will pass (all animals can breathe). This is the baseline case; no variance flip.
+- `chase_anything` is **also accepted** — it can handle any object at all, so an Animal is well within its remit. **This is the surprising direction**: even though `object` is a *broader* type than `Animal`, `Callable[[object], None]` is a *valid substitute* for `Callable[[Animal], None]`. That flip is why it's called *contra*variance.
+
 
 ## Reading a pyrefly error
 
