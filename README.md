@@ -52,7 +52,7 @@ example-project/       # small untyped project used in Section 4
 Quick version:
 
 ```bash
-git clone https://github.com/<TODO>/pyconau26-typing-workshop.git
+git clone https://github.com/javabster/typed-python-zero-to-hero.git
 cd pyconau26-typing-workshop
 python3 -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
