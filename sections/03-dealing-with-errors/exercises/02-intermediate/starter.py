@@ -19,18 +19,25 @@ class Cat(Animal):
         return "meow"
 
 
-# BUG A: mutable default argument — and its type is inferred loosely.
-# Fun fact: objects stored as defaults in a function are reused across
-# all calls of the function.
-def collect(item, seen=[]):
+# BUG A: mutable default argument. The `[]` is built ONCE, when Python
+# executes the `def`, and every call that omits `seen` shares that same list.
+#
+# Heads up: pyrefly reports NOTHING here, even though the annotations are
+# complete and correct. A typechecker catches type mismatches, not every
+# logic bug — this one is a job for a linter (ruff's B006) or your own eyes.
+# Fix it anyway; the `if __name__` block below shows the damage.
+def collect(item: str, seen: list[str] = []) -> list[str]:
     seen.append(item)
     return seen
 
 
-# BUG B: variance. `feed_all` mutates its list; callers that pass a
-# `list[Dog]` will be surprised when the function tries to append a Cat.
-# Rework the signature so the incorrect call site is caught by pyrefly.
-def feed_all(animals: list[Dog]) -> None:
+# BUG B: variance. This function MUTATES the list it's handed — it appends a
+# Cat. That's exactly why `list[T]` is invariant: pyrefly rejects the call
+# site below that passes a `list[Dog]`, because letting it through would
+# smuggle a Cat into a list its owner believes holds only Dogs.
+#
+# The signature here is already right. Fix the CALLER.
+def feed_all(animals: list[Animal]) -> None:
     for a in animals:
         print(f"feeding {a.name}")
     # Notice this line — appending is what makes list-variance a real problem.
@@ -65,7 +72,7 @@ if __name__ == "__main__":
     print("collect leaks:", a, b)
 
     dogs: list[Dog] = [Dog("Rex"), Dog("Buddy")]
-    feed_all(dogs)
+    feed_all(dogs)   # pyrefly rejects this — see BUG B.
     for d in dogs:
         print(d.speak())
 

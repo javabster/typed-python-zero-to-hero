@@ -27,7 +27,15 @@ starter/
 
 3. Fix each error. Re-run pyrefly. Many errors will disappear as you fix upstream types.
 
-4. Once pyrefly reports 0 errors, run `python -m starter.main` to confirm nothing broke at runtime.
+4. Once pyrefly reports 0 errors, run `python -m starter.main`:
+
+   Try it **before** you start, too. It gets three tasks in and then dies:
+
+   ```
+   AttributeError: 'NoneType' object has no attribute 'done'
+   ```
+
+   That crash is one of the planted type errors reaching runtime — pyrefly is pointing at it from a static read of the code, no execution required. When your fixes are in, `main.py` should run start to finish.
 
 ## What you'll practise
 

@@ -1,6 +1,6 @@
 """Filtering helpers — mostly clean, but with one genuinely tricky variance issue."""
 
-from typing import Callable
+from collections.abc import Callable
 
 from .models import Task
 

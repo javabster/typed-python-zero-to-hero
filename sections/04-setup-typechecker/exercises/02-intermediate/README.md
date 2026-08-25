@@ -17,7 +17,7 @@ Open `example-project/pyproject.toml`. Extend the `[tool.pyrefly]` block to:
 
 1. **Restrict includes to `src/`.** Tests shouldn't be typechecked at this level yet — they often have their own patterns. (This should drop the count from 8 → 7.)
 2. **Exclude `**/tests/**` and `**/build/**`.**
-3. **Downgrade legacy errors to warnings.** Add a `[[tool.pyrefly.sub-config]]` block matching `**/legacy.py` that turns `missing-attribute`, `unsupported-operation`, and `bad-return` into `warn`. (This should drop visible errors from 7 → 3, and make `pyrefly check` exit 0.)
+3. **Downgrade legacy errors to warnings.** Add a `[[tool.pyrefly.sub-config]]` block matching `**/legacy.py` that turns `missing-attribute`, `unsupported-operation`, and `bad-return` into `warn`. (This should drop visible errors from 7 → 3.)
 
 Then verify:
 
@@ -25,11 +25,18 @@ Then verify:
 pyrefly check
 # should show: INFO 3 errors (4 warnings not shown)
 echo $?
-# should show: 0
+# should show: 1 — the 4 legacy warnings no longer fail the build,
+#                  but the 3 remaining errors still do
 
 pyrefly check --min-severity warn
 # should show: INFO 7 diagnostics — the 4 legacy ones tagged WARN, the other 3 as ERROR
 ```
+
+Warnings never affect the exit code; errors always do. To get a green build you'd
+also have to fix, exclude, or downgrade those last 3. That's exactly what
+this config is for. Try it: add a `[[tool.pyrefly.sub-config]]`
+for `**/models.py` and `**/server.py` too, confirm `echo $?` prints `0`, and then
+decide whether you'd actually ship that.
 
 ## What you'll practise
 

@@ -3,7 +3,8 @@
 Fully typed — but the request handling has a couple of real bugs.
 """
 
-from typing import Any, Callable, Iterable
+from collections.abc import Callable, Iterable
+from typing import Any
 from wsgiref.simple_server import make_server
 
 from .models import LinkStore

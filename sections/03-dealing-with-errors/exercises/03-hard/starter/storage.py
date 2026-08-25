@@ -26,8 +26,14 @@ def load(path: Path) -> TaskStore:
     data = json.loads(raw)
     store = TaskStore()
     for item in data:
-        # BUG: item["priority"] is `str`, not the required Literal.
-        # Fix by narrowing (assert / cast / runtime validation).
+        # NOT an error, which is expected. `json.loads` returns `Any`,
+        # so `item["priority"]` is `Any`, and `Any` silently satisfies every
+        # annotation, including `Priority`. Pyrefly reports nothing here.
+        #
+        # The code is still wrong: a hand-edited JSON file can put "urgent"
+        # into this variable and nothing will stop it until something
+        # downstream breaks. Typed code is only as trustworthy as its
+        # untyped boundaries. Validate at runtime where `Any` gets in.
         priority: Priority = item["priority"]
         task = store.add(item["title"], priority=priority, tags=item["tags"])
         if item["done"]:
