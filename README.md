@@ -53,11 +53,11 @@ Quick version:
 
 ```bash
 git clone https://github.com/javabster/typed-python-zero-to-hero.git
-cd pyconau26-typing-workshop
+cd typed-python-zero-to-hero
 python3 -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e .
-pyrefly check --version
+pyrefly --version
 ```
 
 ## During the Workshop
