@@ -17,7 +17,7 @@ python3 --version
 ## 1. Clone the repo
 
 ```bash
-git clone https://github.com/<TODO>/pyconau26-typing-workshop.git
+git clone https://github.com/javabster/typed-python-zero-to-hero.git
 cd pyconau26-typing-workshop
 ```
 
@@ -53,7 +53,7 @@ You should see a version number, and then a handful of type errors from the demo
 
 ## 5. (Optional but recommended) Editor integration
 
-Pyrefly ships a language server. In VS Code, install the **Pyrefly** extension for inline error squiggles as you type. Other editors: see [pyrefly.org/docs/editor-setup](https://pyrefly.org/docs/editor-setup).
+Pyrefly ships a language server. In VS Code, install the **Pyrefly** extension for inline error squiggles as you type. Other editors: see [pyrefly.org/en/docs/IDE/](https://pyrefly.org/en/docs/IDE/).
 
 ## Troubleshooting
 
