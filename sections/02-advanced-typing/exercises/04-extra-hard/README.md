@@ -43,6 +43,8 @@ Reference (Pyre docs, same feature works in pyrefly): https://pyre-check.org/doc
 - All three overload stubs use `...` as the body — they have no runtime effect.
 - The order of overloads matters: pyrefly picks the first stub whose types match. Put the more specific ones first.
 - Do **not** decorate the implementation itself with `@overload` — only the stubs.
+- Once the stubs exist, they are the *whole* public signature. The implementation is not a fourth, catch-all overload — a call that matches no stub is a `[no-matching-overload]` error, even if the implementation would have accepted it happily at runtime.
+- The implementation still has to be compatible with every stub, so its parameter types stay wide (`format: str`) even though no caller can reach that width.
 
 ### Part B
 
@@ -54,20 +56,34 @@ Reference (Pyre docs, same feature works in pyrefly): https://pyre-check.org/doc
   P = ParamSpec("P")
   R = TypeVar("R")
 
-  def retry(times: int) -> Callable[[Callable[P, R]], Callable[P, R]]:
-      def decorator(fn: Callable[P, R]) -> Callable[P, R]:
-          def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+  # Note: a ParamSpec takes the place of all the arguments when you don't know
+  # the signature of a function, but want its types to be preserved. It also
+  # stores the args and kwargs as accessible values in type signatures:
+  # e.g. Callable[P, R] is how you would use it, and you can type a function that
+  # it applies to like so:
+  # def foo(*args: P.args, **kwargs: P.kwargs) -> R: ...
+
+  def retry(times: int):  # returns a callable that takes and returns a callable
+      def decorator(fn):
+          def wrapper(*args, **kwargs):
               ...
           return wrapper
       return decorator
   ```
-- The PEP 695 form (3.12+):
+- The PEP 695 form (3.12+) — same shape, but the type parameters are declared
+  in brackets on `retry` instead of as module-level `TypeVar`/`ParamSpec` objects:
   ```python
-    # work by defining the inside functions out for an easier time
-    def retry(times: int): # returns a callable that takes in a callable and returns a callable
-        def decorator(fn): # takes a callable and returns a callable
-            def wrapper(*args, **kwargs): # we don't know what the types of the args and kwargs should be (check out ParamSpec!)
+  from collections.abc import Callable
+
+  def retry[**P, R](times: int):
+      def decorator(fn):
+          def wrapper(*args, **kwargs):
+              ...
+          return wrapper
+      return decorator
   ```
+  Note the `**` in `[**P, R]` — that's what marks `P` as a `ParamSpec` rather
+  than an ordinary type variable.
 - `P.args` / `P.kwargs` are the only way to spread a `ParamSpec` — you can't use `P` on its own for `*args`.
 
 ## Bonus

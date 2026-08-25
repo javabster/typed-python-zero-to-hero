@@ -28,8 +28,8 @@ See [`demo/demo_fixed.py`](./demo/demo_fixed.py) for the clean end state.
 ### Talking points
 
 - Errors don't cascade the way runtime tracebacks do — read from the top and fix one at a time. Later errors may vanish once the earlier ones are resolved.
-- The **error code** in `[brackets]` (e.g. `[not-assignable]`) is stable — you can Google it, ignore it specifically, or configure severity per-code.
-- `# type: ignore` is a tool, not a defeat. But always use a specific error code so it stays narrow: `# pyrefly: ignore[not-assignable]`.
+- The **error code** in `[brackets]` (e.g. `[bad-argument-type]`) is stable — you can Google it, ignore it specifically, or configure severity per-code.
+- `# type: ignore` is a tool, not a defeat. But always use a specific error code so it stays narrow: `# pyrefly: ignore[bad-assignment]`.
 - `cast(T, x)` tells the checker "trust me, this is a T" — no runtime effect. Use sparingly.
 
 ## Exercises
@@ -101,16 +101,34 @@ play_with_animal(chase_anything)  # ✓ also fine — this is contravariance
 ## Reading a pyrefly error
 
 ```
-sections/03-dealing-with-errors/demo/demo.py:14:5: error: `str` is not assignable to `int` [not-assignable]
+ERROR Object of class `User` has no attribute `emial` [missing-attribute]
+  --> sections/03-dealing-with-errors/demo/demo.py:30:28
    |
-14 |     count = "three"
-   |     ^^^^^
+30 |     return f"{user.name} <{user.emial}>"
+   |                            ^^^^^^^^^^
+   |
 ```
 
-- **File:line:col** — where the error is
-- **Message** — what pyrefly thinks is wrong
-- **[error-code]** — the stable, ignorable code
-- **Snippet** — usually the offending expression
+- **Line 1** — the severity (`ERROR` / `WARN`), the message, and the **[error-code]**: the stable, ignorable, greppable name for this category
+- **Line 2** — `--> file:line:col`, where the error is
+- **The rest** — a snippet with the offending expression underlined
+
+Longer errors add context lines above the caret. Here's the first error in the demo, where pyrefly shows you both the declared return type and the `return` that violates it:
+
+```
+ERROR Returned type `Literal['sold out'] | int` is not assignable to declared return type `int` [bad-return]
+  --> sections/03-dealing-with-errors/demo/demo.py:14:12
+   |
+ 8 | def total_price(items: list[dict[str, int]]) -> int:
+   |                                                 --- declared return type
+...
+13 |     total = "sold out" if total == 0 else total
+14 |     return total
+   |            ^^^^^
+   |
+```
+
+Note *where* pyrefly points: at the `return` on line 14, not the assignment on line 13. `total` has no annotation, so pyrefly infers its type as the code flows rather than pinning it to `int` at line 9 — the conflict only becomes an error when the value meets the declared `-> int`. Read the caret, not just the line number you expected.
 
 ## Cheat sheet: fix strategies
 

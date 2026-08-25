@@ -3,7 +3,7 @@
 Two independent tasks. Do Part A first, then Part B if you have time.
 """
 
-from typing import Any
+from typing import Any, reveal_type
 
 
 # ---------------------------------------------------------------------------
@@ -23,8 +23,11 @@ from typing import Any
 #   1. Add three @overload stubs above the implementation, one per format.
 #   2. Use `Literal["json"]`, `Literal["text"]`, `Literal["bytes"]` on the
 #      format parameter of each stub.
-#   3. Keep the implementation function exactly as it is — its signature stays
-#      as the fallback for anything the overloads don't cover.
+#   3. Leave the implementation's signature as it is. It still has to be wide
+#      enough to cover every stub — but note that it is NOT itself a callable
+#      signature. Once the stubs exist they are the ONLY signatures callers
+#      can match: the overloads become the complete public API of `fetch`,
+#      and the implementation becomes invisible to the typechecker.
 #   4. Do NOT put @overload on the implementation. It goes on the stubs only.
 #
 # Verify by uncommenting the reveal_type() calls at the bottom — pyrefly

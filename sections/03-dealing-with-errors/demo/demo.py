@@ -9,7 +9,7 @@ def total_price(items: list[dict[str, int]]) -> int:
     total = 0
     for item in items:
         total += item["price"] * item["quantity"]
-    # Error 1: assigning a str to a variable pyrefly has inferred as int.
+    # Error 1: `total` starts out an int, then gets a str stuffed into it.
     total = "sold out" if total == 0 else total
     return total
 
